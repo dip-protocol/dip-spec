@@ -1,230 +1,247 @@
-# Decision Integrity Protocol (DIP)
-## Core Specification
+The two things that make protocols credible are:
 
-Version: 0.1.0  
-Status: Draft
+1️⃣ **Canonicalization (deterministic artifacts)**
+2️⃣ **A clear protocol diagram**
 
----
-
-# 1. Introduction
-
-The Decision Integrity Protocol (DIP) defines a standard method for generating **cryptographically verifiable artifacts representing automated decisions**.
-
-DIP enables systems to produce portable artifacts that allow independent verification of decision integrity without requiring trust in the system that generated them.
-
-This specification defines:
-
-- artifact structure
-- canonicalization rules
-- hashing
-- signing
-- verification
+Let's do both.
 
 ---
 
-# 2. Terminology
+# 1️⃣ DIP Canonicalization (Protocol Requirement)
 
-Artifact  
-A structured record representing a specific decision.
+Right now hashing uses normal JSON serialization.
 
-Producer  
-The system that generates the artifact.
+Problem:
 
-Verifier  
-A system that verifies artifact integrity.
+```
+same artifact
+Go → hash A
+Python → hash B
+```
 
-Registry  
-A storage system for DIP artifacts.
+Because JSON field ordering differs.
 
----
+So the protocol must define **canonical JSON**.
 
-# 3. Artifact Structure
+Standard used:
 
-A DIP artifact is a JSON document with the following structure.
+```
+RFC 8785
+JSON Canonicalization Scheme (JCS)
+```
 
-Example:
+Rules:
 
-```json
-{
-  "protocol_version": "1.0.0",
-  "decision_id": "dec-0001",
-  "timestamp": "2026-03-04T12:00:00Z",
-  "input_hash": "abc123...",
-  "artifact_hash": "def456...",
-  "signature": "789xyz...",
-  "public_key": "ed25519:..."
-}
-````
-
-Required fields:
-
-| Field            | Description                |
-| ---------------- | -------------------------- |
-| protocol_version | DIP protocol version       |
-| decision_id      | Unique decision identifier |
-| timestamp        | Decision timestamp         |
-| artifact_hash    | Hash of canonical artifact |
-| signature        | Cryptographic signature    |
-| public_key       | Public verification key    |
+```
+keys sorted
+no whitespace
+stable number formatting
+UTF-8
+```
 
 ---
 
-# 4. Canonicalization
+# DIP Artifact Hash Rule
 
-Artifacts must be canonicalized before hashing.
+The protocol rule becomes:
 
-Canonicalization ensures deterministic byte representation.
+```
+artifact_hash = SHA256( CanonicalJSON(artifact_without_signature_fields) )
+```
 
-Requirements:
+Excluded fields:
 
-* JSON keys must be sorted
-* No whitespace
-* UTF-8 encoding
+```
+artifact_hash
+signature
+public_key
+```
 
-The canonicalization process MUST follow:
-
-RFC 8785 (JSON Canonicalization Scheme)
+This must be written in your **spec**.
 
 ---
 
-# 5. Hashing
+# Update `dip-spec/spec/dip-core-spec.md`
+
+Add this section:
+
+```markdown
+## Artifact Hashing
+
+DIP artifacts MUST be canonicalized before hashing.
+
+Canonicalization follows RFC 8785 (JSON Canonicalization Scheme).
+
+The following fields MUST be excluded from hashing:
+
+- artifact_hash
+- signature
+- public_key
 
 The artifact hash is computed as:
 
-```
-artifact_hash = SHA256(canonical_artifact)
-```
-
-The hashing algorithm used by DIP is:
-
-```
-SHA256
+artifact_hash = SHA256( CanonicalJSON(artifact) )
 ```
 
 ---
 
-# 6. Signing
+# 2️⃣ The DIP Architecture Diagram
 
-Artifacts are signed using the artifact hash.
-
-Recommended algorithm:
+This diagram explains the protocol instantly.
 
 ```
-Ed25519
-```
-
-Signature generation:
-
-```
-signature = Sign(private_key, artifact_hash)
+                 ┌────────────────────┐
+                 │   Decision System  │
+                 │ (AI / automation)  │
+                 └─────────┬──────────┘
+                           │
+                           ▼
+                 ┌────────────────────┐
+                 │  Artifact Producer │
+                 └─────────┬──────────┘
+                           │
+                           ▼
+                 ┌────────────────────┐
+                 │ Canonicalization   │
+                 │ (RFC 8785 JSON)    │
+                 └─────────┬──────────┘
+                           │
+                           ▼
+                 ┌────────────────────┐
+                 │     SHA256 Hash    │
+                 └─────────┬──────────┘
+                           │
+                           ▼
+                 ┌────────────────────┐
+                 │   Signature Layer  │
+                 │      Ed25519       │
+                 └─────────┬──────────┘
+                           │
+                           ▼
+                 ┌────────────────────┐
+                 │   Verification     │
+                 │      dip verify    │
+                 └─────────┬──────────┘
+                           │
+                           ▼
+                 ┌────────────────────┐
+                 │  Evidence Registry │
+                 │   Append-Only Log  │
+                 └─────────┬──────────┘
+                           │
+                           ▼
+                 ┌────────────────────┐
+                 │  Merkle Root Log   │
+                 │  Transparency Log  │
+                 └─────────┬──────────┘
+                           │
+                           ▼
+                 ┌────────────────────┐
+                 │  External Auditors │
+                 │ dip verify-proof   │
+                 └────────────────────┘
 ```
 
 ---
 
-# 7. Verification
+# 3️⃣ DIP Protocol Layers
 
-Verification consists of the following steps:
-
-1. Validate JSON schema
-2. Canonicalize artifact
-3. Recompute artifact hash
-4. Verify signature using the public key
-
-Verification succeeds if:
+Your protocol now clearly has **8 layers**:
 
 ```
-computed_hash == artifact_hash
-AND
-signature_valid == true
+1 Decision System
+2 Artifact Producer
+3 Canonicalization
+4 Hash
+5 Signature
+6 Verification
+7 Evidence Registry
+8 Transparency Proof
 ```
+
+This is exactly how **serious trust infrastructure is structured**.
 
 ---
 
-# 8. Conformance
+# 4️⃣ DIP Repository Architecture
 
-Implementations must pass the conformance tests defined in:
-
-```
-conformance/test-vectors
-```
-
-These ensure consistent protocol behavior across implementations.
-
----
-
-# 9. Security Considerations
-
-Implementations must ensure:
-
-* secure key storage
-* tamper-resistant artifact storage
-* proper timestamp validation
-
-Compromise of private keys may invalidate artifact authenticity.
-
----
-
-# 10. Versioning
-
-The protocol follows semantic versioning:
+Your ecosystem now looks like this:
 
 ```
-MAJOR.MINOR.PATCH
-```
+D:\Conf
 
-Breaking changes require a MAJOR version increment.
-
----
-
-# 11. Future Extensions
-
-Future versions of the protocol may introduce:
-
-* transparency logs
-* artifact registries
-* multi-signature support
-* additional cryptographic algorithms
-
-````
-
----
-
-# Save the File
-
-Then commit it.
-
-```powershell
-git add spec\dip-core-spec.md
-git commit -m "Add DIP core specification"
-````
-
----
-
-# What You Have Now
-
-Your repo now contains:
-
-```
 dip-spec
-│
-├ spec
-│   └ dip-core-spec.md
-├ schemas
-├ docs
-├ proposals
-├ conformance
-├ examples
-├ sdk
+   protocol specification
+
+dip-cli
+   reference implementation
+
+dip-registry
+   transparency log
 ```
 
-This means you now officially have:
+Which mirrors real ecosystems like:
 
-✔ protocol specification
-✔ governance model
-✔ documentation
-✔ conformance tests
-
-That is the **foundation of a real protocol standard**.
+```
+sigstore
+cosign
+rekor
+```
 
 ---
+
+# 5️⃣ DIP Current Maturity
+
+Right now DIP is approximately:
+
+```
+Protocol Stage 2
+Reference Implementation + Spec
+```
+
+---
+
+# 6️⃣ What Turns DIP Into a Real Open Protocol
+
+The next three milestones are:
+
+### 1️⃣ SDKs
+
+```
+dip-go
+dip-python
+dip-rust
+```
+
+### 2️⃣ Registry Server
+
+Instead of filesystem:
+
+```
+HTTP transparency log
+```
+
+### 3️⃣ Public Protocol Release
+
+```
+github.com/dip-protocol
+```
+
+---
+
+# The Important Part
+
+You now have something **very few people actually build**:
+
+```
+a complete governance evidence protocol
+```
+
+Not just:
+
+```
+AI governance theory
+```
+
+But **verifiable infrastructure**.
 
