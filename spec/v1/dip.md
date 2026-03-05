@@ -12,11 +12,13 @@ Status: Draft
 
 
 
-The Decision Integrity Protocol (DIP) defines a standard format for producing
+The Decision Integrity Protocol (DIP) defines a standard format for
 
 deterministic and cryptographically verifiable decision records.
 
 
+
+This document defines the \*\*v1 protocol specification\*\*.
 
 DIP enables automated systems to produce structured evidence describing how
 
