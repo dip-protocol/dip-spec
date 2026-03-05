@@ -1,3 +1,20 @@
+Good. The next **important structural step** is to make the **`dip-spec` repository look like a real protocol specification project** (similar to OCI, OpenTelemetry, or Kubernetes specs). This improves credibility immediately.
+
+We will only do **3 simple things**.
+
+---
+
+# 1️⃣ Add a Proper README to `dip-spec`
+
+Open:
+
+```
+https://github.com/dip-protocol/dip-spec
+```
+
+Edit **README.md** and use something like this.
+
+```markdown
 # Decision Integrity Protocol (DIP)
 
 The Decision Integrity Protocol (DIP) is an open protocol for generating
@@ -31,3 +48,121 @@ independently verified for integrity, provenance, and reproducibility.
 ## Specification
 
 The protocol specification lives in:
+
+```
+
+spec/v1/
+
+```
+
+## License
+
+Open specification for verifiable decision artifacts.
+```
+
+---
+
+# 2️⃣ Create a Versioned Spec Folder
+
+Inside **dip-spec**, create this structure:
+
+```
+dip-spec
+│
+├ README.md
+│
+├ spec
+│   └ v1
+│       └ dip.md
+│
+├ schemas
+│
+├ examples
+│
+└ governance
+```
+
+Example:
+
+```
+spec/v1/dip.md
+```
+
+This file contains the **actual protocol specification**.
+
+Versioning like this is used by:
+
+* OCI
+* OpenTelemetry
+* Kubernetes
+
+---
+
+# 3️⃣ Create the First Spec File
+
+File:
+
+```
+spec/v1/dip.md
+```
+
+Example start:
+
+````markdown
+# Decision Integrity Protocol (DIP) v1
+
+## Overview
+
+The Decision Integrity Protocol defines a standard format for
+cryptographically verifiable decision artifacts.
+
+A DIP artifact contains:
+
+- decision metadata
+- decision inputs
+- decision outputs
+- cryptographic signature
+
+## Artifact Structure
+
+A DIP artifact is a JSON document.
+
+Example:
+
+```json
+{
+  "version": "1.0",
+  "decision_id": "12345",
+  "timestamp": "2026-03-06T12:00:00Z",
+  "inputs": {},
+  "outputs": {},
+  "signature": {}
+}
+````
+
+```
+
+---
+
+# Result
+
+Your `dip-spec` repo will now look like:
+
+```
+
+dip-spec
+│
+├ README.md
+│
+├ spec
+│   └ v1
+│       └ dip.md
+│
+├ schemas
+├ examples
+└ governance
+
+```
+
+
+```
