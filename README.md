@@ -1,18 +1,3 @@
-Good. The next **important structural step** is to make the **`dip-spec` repository look like a real protocol specification project** (similar to OCI, OpenTelemetry, or Kubernetes specs). This improves credibility immediately.
-
-We will only do **3 simple things**.
-
----
-
-# 1️⃣ Add a Proper README to `dip-spec`
-
-Open:
-
-```
-https://github.com/dip-protocol/dip-spec
-```
-
-Edit **README.md** and use something like this.
 
 ```markdown
 # Decision Integrity Protocol (DIP)
