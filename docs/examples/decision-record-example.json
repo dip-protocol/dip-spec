@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "decision_id": "dec-2026-001",
+  "timestamp": "2026-03-05T12:00:00Z",
+  "inputs": {
+    "customer_id": "CUST-12345",
+    "transaction_amount": 2500,
+    "risk_score": 0.82
+  },
+  "outputs": {
+    "decision": "approve",
+    "reason": "Risk score below rejection threshold"
+  },
+  "metadata": {
+    "system": "fraud-detection-service",
+    "model_version": "v3.2"
+  },
+  "signature": {
+    "algorithm": "ed25519",
+    "value": "example-signature-placeholder"
+  }
+}
