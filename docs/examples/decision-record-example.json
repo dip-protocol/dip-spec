@@ -1,22 +1,23 @@
 {
-  "version": "1.0",
   "decision_id": "dec-2026-001",
-  "timestamp": "2026-03-05T12:00:00Z",
   "inputs": {
     "customer_id": "CUST-12345",
-    "transaction_amount": 2500,
-    "risk_score": 0.82
+    "risk_score": 0.82,
+    "transaction_amount": 2500
+  },
+  "metadata": {
+    "model_version": "v3.2",
+    "system": "fraud-detection-service"
   },
   "outputs": {
     "decision": "approve",
     "reason": "Risk score below rejection threshold"
   },
-  "metadata": {
-    "system": "fraud-detection-service",
-    "model_version": "v3.2"
-  },
   "signature": {
     "algorithm": "ed25519",
-    "value": "example-signature-placeholder"
-  }
+    "public_key": "s4jBatAxxsy0mQN3ce6dnUXcBGM4OIkgJMLDgWiCyvg=",
+    "value": "IEZjlpAH/zffmo9BS0WHW30vJD0S4mMFV/+NR5EAT0QU+1AzwXKeAMfAikx5qrwshd39xNMat5fFiV6XDATZAQ=="
+  },
+  "timestamp": "2026-03-05T12:00:00Z",
+  "version": "1.0"
 }
