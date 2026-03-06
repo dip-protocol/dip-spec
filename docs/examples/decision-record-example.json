@@ -15,8 +15,8 @@
   },
   "signature": {
     "algorithm": "ed25519",
-    "public_key": "s4jBatAxxsy0mQN3ce6dnUXcBGM4OIkgJMLDgWiCyvg=",
-    "value": "IEZjlpAH/zffmo9BS0WHW30vJD0S4mMFV/+NR5EAT0QU+1AzwXKeAMfAikx5qrwshd39xNMat5fFiV6XDATZAQ=="
+    "public_key": "GQ+T6iMeGWOO96CTs5Zwotnh0ig9GDvNXcLYxSFjyM0=",
+    "value": "p3SaEgtGwmd8Hp9bYJPMPcVDxZAWUvQDQx3EN0d8VDzsyvL5gAepnDKt5uwe7riDDJpbirpy6ycg721IhWNwAQ=="
   },
   "timestamp": "2026-03-05T12:00:00Z",
   "version": "1.0"
