@@ -1,33 +1,41 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DIP Artifact",
   "type": "object",
   "required": [
-    "protocol_version",
-    "decision_id",
-    "timestamp",
-    "input_hash"
+    "artifact_version",
+    "artifact_id",
+    "decision",
+    "signature"
   ],
   "properties": {
-    "protocol_version": {
+    "artifact_version": {
       "type": "string"
     },
-    "decision_id": {
+    "artifact_id": {
       "type": "string"
     },
-    "timestamp": {
-      "type": "string"
-    },
-    "input_hash": {
-      "type": "string"
-    },
-    "artifact_hash": {
-      "type": "string"
+    "decision": {
+      "type": "object"
     },
     "signature": {
-      "type": "string"
-    },
-    "public_key": {
-      "type": "string"
+      "type": "object",
+      "required": [
+        "algorithm",
+        "public_key",
+        "value"
+      ],
+      "properties": {
+        "algorithm": {
+          "type": "string"
+        },
+        "public_key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 {
-  "version": "1.0",
-  "decision_id": "missing-fields-test"
+  "artifact_version": "1.0",
+  "decision": {},
+  "signature": {}
 }

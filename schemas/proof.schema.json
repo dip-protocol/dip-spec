@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DIP Proof",
+  "type": "object",
+  "required": [
+    "artifact_hash",
+    "proof_path",
+    "root"
+  ],
+  "properties": {
+    "artifact_hash": {
+      "type": "string"
+    },
+    "proof_path": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "root": {
+      "type": "string"
+    }
+  }
+}
