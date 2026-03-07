@@ -1,0 +1,11 @@
+{
+  "decision_id": "scale-cluster-001",
+  "timestamp": "2026-03-07T12:10:00Z",
+  "inputs": {
+    "cluster": "production",
+    "cpu_utilization": 82
+  },
+  "outputs": {
+    "scale_action": "add-node"
+  }
+}

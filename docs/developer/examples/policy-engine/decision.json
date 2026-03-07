@@ -1,0 +1,12 @@
+{
+  "decision_id": "policy-check-001",
+  "timestamp": "2026-03-07T12:05:00Z",
+  "inputs": {
+    "policy": "access-control",
+    "user": "alice",
+    "resource": "database"
+  },
+  "outputs": {
+    "access_granted": false
+  }
+}

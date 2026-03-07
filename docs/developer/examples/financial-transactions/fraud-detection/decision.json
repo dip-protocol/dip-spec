@@ -1,0 +1,12 @@
+{
+  "decision_id": "fraud-check-001",
+  "timestamp": "2026-03-07T13:05:00Z",
+  "inputs": {
+    "transaction_id": "TXN456",
+    "location": "unknown",
+    "velocity_score": 0.91
+  },
+  "outputs": {
+    "fraud_flag": true
+  }
+}

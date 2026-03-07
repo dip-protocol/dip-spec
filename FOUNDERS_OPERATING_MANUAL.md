@@ -78,6 +78,7 @@ Artifact | Signed representation of a decision |
 
 Proof | Merkle inclusion proof |
 
+clear
 Bundle | Portable verification container |
 
 
