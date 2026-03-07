@@ -151,3 +151,23 @@ dip-spec
 
 
 ```
+## DIP Architecture
+
+Decision Integrity Protocol (DIP) separates decision execution from evidence storage.
+
+decision
+   ↓
+Documentation Engine (dip-cli)
+   ↓
+Decision Artifact (artifact.json)
+   ↓
+Verification (dip-go-verifier)
+   ↓
+Decision Ledger (dip-registry)
+
+Properties:
+
+artifact + verifier = truth
+verification works offline
+ledger is append-only and tamper-evident
+no single platform can kill DIP
