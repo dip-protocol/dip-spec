@@ -8,6 +8,7 @@
     "decision",
     "signature"
   ],
+  "additionalProperties": false,
   "properties": {
     "artifact_version": {
       "type": "string"
@@ -25,9 +26,11 @@
         "public_key",
         "value"
       ],
+      "additionalProperties": false,
       "properties": {
         "algorithm": {
-          "type": "string"
+          "type": "string",
+          "enum": ["ed25519"]
         },
         "public_key": {
           "type": "string"
