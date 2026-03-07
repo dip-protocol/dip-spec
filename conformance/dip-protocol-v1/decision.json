@@ -1,0 +1,6 @@
+{
+  "decision_id": "dip-conformance-001",
+  "system": "dip-test",
+  "action": "allow",
+  "resource": "example"
+}
