@@ -1,70 +1,26 @@
-\# DIP Protocol Governance Process
+\# DIP Governance Process
 
 
 
-The Decision Integrity Protocol (DIP) evolves through an open governance process.
+This document defines how the Decision Integrity Protocol evolves.
 
 
 
-\## Goals
+Protocol changes occur through DIP proposals.
 
 
 
-The governance process ensures:
+---
 
 
 
-\- transparency in protocol development
-
-\- stability of released protocol versions
-
-\- open participation from the community
+\# DIP Proposals
 
 
 
-\## Change Process
+Changes to the protocol must be proposed through a
 
-
-
-Protocol changes are proposed through \*\*DIP Proposals (DIPs)\*\*.
-
-
-
-Each proposal should include:
-
-
-
-\- motivation
-
-\- detailed specification changes
-
-\- compatibility considerations
-
-
-
-\## Proposal Lifecycle
-
-
-
-1\. Draft
-
-2\. Review
-
-3\. Accepted
-
-4\. Implemented
-
-
-
-\## Versioning
-
-
-
-Protocol versions follow semantic versioning:
-
-
-
-MAJOR.MINOR.PATCH
+DIP Improvement Proposal.
 
 
 
@@ -72,19 +28,119 @@ Examples:
 
 
 
-\- v1.0
+DIP-0001  
 
-\- v1.1
-
-\- v2.0
+DIP-0002  
 
 
 
-\## Compatibility
+---
 
 
 
-Backward compatibility should be preserved whenever possible.
+\# Proposal Lifecycle
 
-Breaking changes must introduce a new major version.
+
+
+A proposal moves through the following states.
+
+
+
+Draft → Review → Accepted → Final
+
+
+
+---
+
+
+
+\# Draft
+
+
+
+The proposal is written and submitted.
+
+
+
+---
+
+
+
+\# Review
+
+
+
+The community evaluates the proposal.
+
+
+
+---
+
+
+
+\# Accepted
+
+
+
+The proposal is approved for implementation.
+
+
+
+---
+
+
+
+\# Final
+
+
+
+The proposal becomes part of the protocol specification.
+
+
+
+---
+
+
+
+\# Protocol Stability
+
+
+
+Changes that modify the following require
+
+careful review:
+
+
+
+artifact structure  
+
+proof format  
+
+verification algorithm  
+
+
+
+These changes may require a new protocol version.
+
+
+
+---
+
+
+
+\# Governance Principles
+
+
+
+DIP governance follows several principles.
+
+
+
+Minimalism  
+
+deterministic verification  
+
+long-term survivability  
+
+implementation independence
 
