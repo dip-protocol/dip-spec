@@ -1,24 +1,28 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "DIP Proof",
+  "title": "DIP Merkle Proof",
   "type": "object",
   "required": [
     "artifact_hash",
     "proof_path",
     "root"
   ],
+  "additionalProperties": false,
   "properties": {
     "artifact_hash": {
-      "type": "string"
+      "type": "string",
+      "description": "SHA256 hash of the artifact"
     },
     "proof_path": {
       "type": "array",
+      "description": "Merkle proof path from artifact to root",
       "items": {
         "type": "string"
       }
     },
     "root": {
-      "type": "string"
+      "type": "string",
+      "description": "Merkle root of the decision ledger"
     }
   }
 }
