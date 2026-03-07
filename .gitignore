@@ -13,3 +13,7 @@ Thumbs.db
 
 # Go build folders
 bin/
+
+# temp files
+*.tmp
+*.log
