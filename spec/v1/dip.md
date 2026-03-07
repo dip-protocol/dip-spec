@@ -1,10 +1,4 @@
-\# Decision Integrity Protocol (DIP)
-
-
-
-Version: v1.0  
-
-Status: Draft
+\# Decision Integrity Protocol (DIP) v1
 
 
 
@@ -12,127 +6,201 @@ Status: Draft
 
 
 
-The Decision Integrity Protocol (DIP) defines a standard format for
+The Decision Integrity Protocol defines a format for producing
 
-deterministic and cryptographically verifiable decision records.
+cryptographically verifiable records of automated decisions.
 
 
 
-This document defines the \*\*v1 protocol specification\*\*.
+A DIP artifact records a decision and provides the information necessary
 
-DIP enables automated systems to produce structured evidence describing how
+for independent verification.
 
-a decision was made.
 
 
+\## Artifact Format
 
-\## Core Concepts
 
 
+Artifacts are JSON documents.
 
-\### Decision Record
 
 
+Example artifact:
 
-A Decision Record is a structured artifact describing:
 
 
+```json
 
-\- the decision outcome
+{
 
-\- inputs used to make the decision
+&nbsp; "artifact\_version": "1.0",
 
-\- metadata describing execution context
+&nbsp; "artifact\_id": "sha256-hash",
 
-\- cryptographic signature
+&nbsp; "decision": {},
 
+&nbsp; "signature": {
 
+&nbsp;   "algorithm": "ed25519",
 
-\### Deterministic Evidence
+&nbsp;   "public\_key": "...",
 
+&nbsp;   "value": "..."
 
+&nbsp; }
 
-Decision records must be reproducible and verifiable across systems.
+}
 
+Fields
 
+Field	Description
 
-\### Verification
+artifact\_version	Protocol version
 
+artifact\_id	SHA256 hash of canonical artifact
 
+decision	Structured decision record
 
-Any party should be able to independently verify:
+signature	Cryptographic signature
 
+Canonicalization
 
 
-\- record integrity
 
-\- signature validity
+Artifacts must be canonicalized before signing.
 
-\- schema compliance
 
 
+Canonicalization rules:
 
-\## Components
 
 
+JSON objects must use deterministic ordering
 
-DIP consists of several components:
 
 
+No whitespace changes allowed
 
-\- \*\*Specification\*\* — protocol definition
 
-\- \*\*Schemas\*\* — JSON schemas for decision records
 
-\- \*\*CLI\*\* — reference implementation
+UTF-8 encoding
 
-\- \*\*Registry\*\* — append-only storage for decision evidence
 
 
+Signature
 
-\## Decision Record Structure
 
 
+Artifacts are signed using:
 
-A DIP decision record contains:
 
 
+Ed25519
 
-\- version
 
-\- decision\_id
 
-\- timestamp
+The signature is computed over the canonicalized artifact content.
 
-\- inputs
 
-\- outputs
 
-\- signature
+Proof Format
 
 
 
-\## Security Model
+Proofs demonstrate inclusion in the decision ledger.
 
 
 
-The protocol relies on cryptographic signatures to guarantee integrity and
+Example:
 
-authenticity of decision records.
 
 
+{
 
-\## Future Work
+&nbsp; "artifact\_hash": "...",
 
+&nbsp; "proof\_path": \[],
 
+&nbsp; "root": "..."
 
-Future versions of the protocol may include:
+}
 
 
 
-\- advanced verification models
+Fields:
 
-\- registry federation
 
-\- cross-system decision chains
+
+Field	Description
+
+artifact\_hash	Hash of artifact
+
+proof\_path	Merkle inclusion path
+
+root	Ledger Merkle root
+
+Bundle Format
+
+
+
+DIP bundles use the .dip extension.
+
+
+
+A bundle is a zip archive containing:
+
+
+
+artifact.json
+
+proof.json
+
+
+
+Bundles allow portable verification.
+
+
+
+Verification
+
+
+
+Verification performs the following checks:
+
+
+
+artifact canonicalization
+
+
+
+signature validation
+
+
+
+artifact hash consistency
+
+
+
+proof verification against ledger root
+
+
+
+If all checks succeed, the artifact is considered valid.
+
+
+
+Protocol Invariant
+
+
+
+The protocol guarantees:
+
+
+
+artifact + proof + verifier = truth
+
+
+
+Verification must be possible offline.
 

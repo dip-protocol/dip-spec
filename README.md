@@ -1,18 +1,32 @@
-
-```markdown
 # Decision Integrity Protocol (DIP)
 
-The Decision Integrity Protocol (DIP) is an open protocol for generating
-deterministic, cryptographically verifiable decision records.
+The Decision Integrity Protocol (DIP) is an open protocol for producing
+cryptographically verifiable records of automated decisions.
 
-DIP enables automated systems to produce decision artifacts that can be
-independently verified for integrity, provenance, and reproducibility.
+DIP enables systems to generate deterministic decision artifacts that can be
+independently verified without relying on the system that produced them.
 
-## Core Concepts
+## Core Principle
 
-- **Decision Record** — Structured representation of a decision.
-- **Signature** — Cryptographic proof of integrity.
-- **Verification** — Independent validation of the artifact.
+Verification must work independently of the system that produced the decision.
+
+
+artifact + proof + verifier = truth
+
+
+A verifier must be able to validate a decision artifact **offline** using only
+the artifact, its proof, and a verification implementation.
+
+## Protocol Primitives
+
+The protocol defines four core primitives:
+
+| Primitive | Description |
+|----------|-------------|
+| Artifact | Signed record describing the decision |
+| Proof | Cryptographic inclusion proof from the decision ledger |
+| Bundle | Portable container combining artifact and proof |
+| Verification | Independent validation of artifact integrity |
 
 ## Repositories
 
@@ -20,154 +34,47 @@ independently verified for integrity, provenance, and reproducibility.
 |-----------|--------|
 | dip-spec | Protocol specification |
 | dip-cli | Reference CLI implementation |
-| dip-registry | Artifact registry |
-| dip-go-verifier | Verification library |
+| dip-registry | Append-only decision ledger |
+| dip-go-verifier | Independent verification library |
 
-## Workflow
+## Decision Pipeline
 
-1. Produce a decision record
-2. Sign the record
-3. Publish or store the artifact
-4. Verify integrity independently
+A typical DIP workflow:
 
-## Specification
 
-The protocol specification lives in:
+decision.json
+↓
+dip sign
+artifact.json
+↓
+dip proof
+proof.json
+↓
+dip bundle
+decision.dip
+↓
+dip verify decision.dip
 
-```
 
-spec/v1/
+## Protocol Specification
 
-```
+The full protocol specification is located in:
+
+
+spec/v1/dip.md
+
+
+## Properties
+
+DIP is designed with the following guarantees:
+
+* deterministic artifacts
+* cryptographic signatures
+* append-only decision ledger
+* independent verification
+* offline verification capability
+* no single platform dependency
 
 ## License
 
-Open specification for verifiable decision artifacts.
-```
-
----
-
-# 2️⃣ Create a Versioned Spec Folder
-
-Inside **dip-spec**, create this structure:
-
-```
-dip-spec
-│
-├ README.md
-│
-├ spec
-│   └ v1
-│       └ dip.md
-│
-├ schemas
-│
-├ examples
-│
-└ governance
-```
-
-Example:
-
-```
-spec/v1/dip.md
-```
-
-This file contains the **actual protocol specification**.
-
-Versioning like this is used by:
-
-* OCI
-* OpenTelemetry
-* Kubernetes
-
----
-
-# 3️⃣ Create the First Spec File
-
-File:
-
-```
-spec/v1/dip.md
-```
-
-Example start:
-
-````markdown
-# Decision Integrity Protocol (DIP) v1
-
-## Overview
-
-The Decision Integrity Protocol defines a standard format for
-cryptographically verifiable decision artifacts.
-
-A DIP artifact contains:
-
-- decision metadata
-- decision inputs
-- decision outputs
-- cryptographic signature
-
-## Artifact Structure
-
-A DIP artifact is a JSON document.
-
-Example:
-
-```json
-{
-  "version": "1.0",
-  "decision_id": "12345",
-  "timestamp": "2026-03-06T12:00:00Z",
-  "inputs": {},
-  "outputs": {},
-  "signature": {}
-}
-````
-
-```
-
----
-
-# Result
-
-Your `dip-spec` repo will now look like:
-
-```
-
-dip-spec
-│
-├ README.md
-│
-├ spec
-│   └ v1
-│       └ dip.md
-│
-├ schemas
-├ examples
-└ governance
-
-```
-
-
-```
-## DIP Architecture
-
-Decision Integrity Protocol (DIP) separates decision execution from evidence storage.
-
-decision
-   ↓
-Documentation Engine (dip-cli)
-   ↓
-Decision Artifact (artifact.json)
-   ↓
-Verification (dip-go-verifier)
-   ↓
-Decision Ledger (dip-registry)
-
-Properties:
-
-artifact + verifier = truth
-verification works offline
-ledger is append-only and tamper-evident
-no single platform can kill DIP
+Open protocol specification.

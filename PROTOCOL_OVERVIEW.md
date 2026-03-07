@@ -1,116 +1,73 @@
-\# Decision Integrity Protocol (DIP)
+# DIP Protocol Overview
 
+The Decision Integrity Protocol (DIP) defines a standard for producing
+cryptographically verifiable records of automated decisions.
 
+The protocol separates **decision execution** from **decision verification**.
 
-The \*\*Decision Integrity Protocol (DIP)\*\* is an open infrastructure protocol for producing \*\*verifiable decision artifacts\*\*.
+## Architecture
 
 
+decision
+↓
+Documentation Engine (dip-cli)
+↓
+Decision Artifact (artifact.json)
+↓
+Proof Generation
+↓
+Proof (proof.json)
+↓
+Portable Bundle (decision.dip)
+↓
+Independent Verification
 
-It enables automated systems to generate decisions that can be \*\*cryptographically verified\*\*, \*\*independently audited\*\*, and \*\*published in transparency registries\*\*.
 
+## Components
 
+### Artifact
 
-The protocol is designed for systems where \*\*trust in automated decisions is critical\*\*.
+The artifact is the signed representation of the decision.
 
+It contains:
 
+* decision content
+* artifact identifier
+* cryptographic signature
 
----
+### Proof
 
+A proof demonstrates that the artifact was included in the decision ledger.
 
+Proofs use a Merkle inclusion proof derived from the registry log.
 
-\# The Problem
+### Bundle
 
+A DIP bundle is a portable archive containing:
 
 
-Modern software systems increasingly make important decisions.
+artifact.json
+proof.json
 
 
+The bundle format uses the `.dip` extension.
 
-Examples include:
+### Verification
 
+Verification validates:
 
+1. artifact signature
+2. artifact integrity
+3. proof correctness
 
-• AI systems generating outputs  
+Verification must work without requiring access to the original system.
 
-• financial systems executing transactions  
+## Protocol Guarantee
 
-• automated governance systems  
+If verification succeeds:
 
-• regulatory compliance engines  
 
+artifact + proof + verifier = truth
 
 
-Most of these systems produce \*\*results without verifiable evidence of how the decision occurred\*\*.
-
-
-
-This creates several problems:
-
-
-
-• lack of auditability  
-
-• inability to independently verify decisions  
-
-• difficulty proving system integrity  
-
-• reduced trust in automated systems  
-
-
-
-The Decision Integrity Protocol addresses this gap.
-
-
-
----
-
-
-
-\# Core Concept
-
-
-
-DIP introduces the concept of a \*\*Decision Artifact\*\*.
-
-
-
-A decision artifact is a structured record describing a decision event.
-
-
-
-Each artifact contains:
-
-
-
-• decision identifier  
-
-• input data references  
-
-• output results  
-
-• system metadata  
-
-• timestamp  
-
-• protocol version  
-
-• cryptographic signature  
-
-
-
-Artifacts can be verified independently of the system that produced them.
-
-
-
----
-
-
-
-\# Protocol Workflow
-
-
-
-The protocol defines a deterministic workflow.
-
-
-
+The decision record is considered cryptographically valid.
