@@ -1,42 +1,34 @@
-\# Decision Integrity Protocol (DIP)
+\# DIP Protocol Status
 
 
 
-Protocol Status: Draft  
-
-Specification Version: v0.1.0
+Current Version: DIP v1.0
 
 
 
-This repository contains the official specification of the
-
-Decision Integrity Protocol (DIP).
+Status: Stable
 
 
 
-Current Components:
+The protocol core is considered stable.
 
 
 
-\- Core protocol specification
-
-\- Artifact schema
-
-\- Governance model
-
-\- Conformance test vectors
-
-\- Architecture documentation
+Future changes must occur through DIP proposals.
 
 
 
-Future Work:
+Repositories:
 
 
 
-\- Signature standardization
+dip-cli  
 
-\- SDK implementations
+dip-registry  
 
-\- Transparency registry
+dip-go-verifier  
+
+dip-spec  
+
+dip-website
 
