@@ -3,18 +3,13 @@
   "title": "DIP Decision Record",
   "type": "object",
   "required": [
-    "version",
     "decision_id",
     "timestamp",
     "inputs",
-    "outputs",
-    "signature"
+    "outputs"
   ],
+  "additionalProperties": true,
   "properties": {
-    "version": {
-      "type": "string",
-      "description": "Protocol version"
-    },
     "decision_id": {
       "type": "string",
       "description": "Unique identifier for the decision"
@@ -22,31 +17,15 @@
     "timestamp": {
       "type": "string",
       "format": "date-time",
-      "description": "Time when the decision was produced"
+      "description": "ISO 8601 timestamp of decision execution"
     },
     "inputs": {
       "type": "object",
-      "description": "Inputs used to produce the decision"
+      "description": "Inputs used to compute the decision"
     },
     "outputs": {
       "type": "object",
-      "description": "Decision outputs"
-    },
-    "metadata": {
-      "type": "object",
-      "description": "Optional execution metadata"
-    },
-    "signature": {
-      "type": "object",
-      "required": ["algorithm", "value"],
-      "properties": {
-        "algorithm": {
-          "type": "string"
-        },
-        "value": {
-          "type": "string"
-        }
-      }
+      "description": "Outputs produced by the decision"
     }
   }
 }
