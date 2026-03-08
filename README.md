@@ -1,164 +1,125 @@
----
+![Protocol](https://img.shields.io/badge/protocol-DIP-blue)
+![Version](https://img.shields.io/badge/version-v0.1-green)
+![License](https://img.shields.io/badge/license-MIT-orange)
+![Status](https://img.shields.io/badge/status-experimental-yellow)
 
-# Decision Integrity Protocol (DIP) Specification
+# Decision Integrity Protocol (DIP)
 
-The **Decision Integrity Protocol (DIP)** defines a minimal standard for producing **verifiable artifacts representing automated decisions**.
+A minimal protocol for **verifiable automated decisions**.
 
-A DIP artifact records the inputs and outputs of an automated decision together with cryptographic evidence that the artifact has not been altered.
-
-Artifacts created using this protocol can be **verified independently and offline**, without requiring access to the original system that produced them.
-
----
-
-# Protocol Goals
-
-The protocol is designed to ensure that automated decision records are:
-
-* **Independently verifiable**
-* **Deterministically auditable**
-* **Preserved for long-term verification**
-* **Implementable across multiple programming languages**
-
-DIP intentionally minimizes protocol surface area in order to maximize interoperability and long-term stability.
+DIP enables automated systems to produce decision artifacts that can be **independently verified without trusting the original platform**.
 
 ---
 
-# Core Protocol Concepts
+# Protocol Invariant
 
-## Decision Artifact
 
-The primary protocol object is the **decision artifact**.
+artifact + proof + verifier = truth
 
-A decision artifact is a structured record containing the information necessary to verify an automated decision event.
 
-At minimum, a DIP artifact contains:
+---
 
-```
-artifact_version
-artifact_id
+# Protocol Flow
+
+
 decision
-signature
-```
-
-The artifact identifier is derived from the canonical representation of the artifact.
-
-```
-artifact_id = SHA256(canonical_artifact)
-```
-
-This identifier uniquely represents the artifact contents.
-
----
-
-# Canonicalization
-
-Artifacts must be serialized using **deterministic canonical JSON**.
-
-Canonicalization rules include:
-
-* Object keys must be sorted lexicographically
-* No extraneous whitespace is permitted
-* Encoding must use UTF-8
-
-Canonical serialization ensures that artifacts produce **stable hashes and signatures across implementations**.
-
----
-
-# Cryptographic Signing
-
-Artifacts are signed using the **Ed25519 digital signature algorithm**.
-
-Signing procedure:
-
-```
-artifact (without signature)
-        ↓
-canonicalization
-        ↓
-SHA256 hash
-        ↓
-Ed25519 signature
-```
-
-The resulting signature binds the artifact contents to the signing key.
-
----
-
-# Verification
-
-Any DIP-compatible verifier can validate a decision artifact.
-
-Verification process:
-
-```
+↓
 artifact
-   ↓
-remove signature
-   ↓
-canonicalize artifact
-   ↓
-recompute artifact_id
-   ↓
-verify Ed25519 signature
-```
+↓
+registry
+↓
+proof
+↓
+verification
 
-If all checks succeed, the artifact is considered **valid and unmodified**.
-
-Verification does not require network access or access to the originating system.
 
 ---
 
 # Protocol Architecture
 
-The reference ecosystem contains several independent components:
+```mermaid
+flowchart TD
 
-```
-dip-spec
-    Protocol specification
+A[Decision] --> B[Artifact Creation]
+B --> C[Artifact JSON]
+C --> D[Append to Registry]
+D --> E[Merkle Tree Ledger]
+E --> F[Generate Proof]
+F --> G[Independent Verification]
+G --> H[Truth]
+Quickstart (30 seconds)
 
-dip-cli
-    Artifact creation and signing tools
+Run the full DIP pipeline locally.
 
-dip-registry
-    Append-only transparency log
+Clone the repositories:
 
-dip-go-verifier
-    Go implementation of artifact verification
+git clone https://github.com/dip-protocol/dip-cli
+git clone https://github.com/dip-protocol/dip-registry
+git clone https://github.com/dip-protocol/dip-go-verifier
+git clone https://github.com/dip-protocol/dip
 
-dip-js-verifier
-    JavaScript implementation of artifact verification
-```
+Build the CLI:
 
-These implementations demonstrate how the protocol can be adopted across multiple environments.
+cd dip
+go build ./cmd/dip
 
----
+Run a demo decision:
 
-# Verification Example
+dip demo decision.json
 
-A DIP artifact can be verified using any compatible verifier.
+Expected output:
 
-Example command:
+Step 1: Signing decision
+DIP artifact created
 
-```
-verify artifact.json
-```
+Step 2: Appending artifact
+Record appended to registry
 
-If verification succeeds, the verifier prints:
-
-```
+Step 3: Verifying artifact
 Artifact verified successfully
-```
 
-This demonstrates the core DIP invariant:
-
-```
+DIP pipeline complete
 artifact + proof + verifier = truth
-```
+Example
+dip demo decision.json
+Repositories
+Repository	Purpose
+dip-spec	Protocol specification
+dip-cli	Artifact creation
+dip-registry	Append-only decision ledger
+dip-go-verifier	Independent verifier
+dip	Unified CLI
+Documentation
+Section	Location
+Protocol Specification	spec/v1
+Conformance Tests	conformance/test-vectors
+Governance	governance
+Research	research
+Whitepaper	whitepaper
+Protocol Pipeline
+decision.json
+      │
+      ▼
+dip sign
+      │
+      ▼
+artifact.json
+      │
+      ▼
+dip append
+      │
+      ▼
+registry ledger
+      │
+      ▼
+dip proof
+      │
+      ▼
+proof.json
+      │
+      ▼
+dip verify
+Status
 
----
-
-# License
-
-This specification is released under the **Apache License 2.0**.
-
----
+Protocol Version: v0.1
+Stability: Experimental
