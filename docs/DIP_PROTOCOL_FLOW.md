@@ -2,179 +2,179 @@
 
 
 
-The Decision Integrity Protocol produces verifiable decision records
-
-through a deterministic pipeline.
+This document explains the lifecycle of a Decision Integrity Protocol (DIP) artifact.
 
 
 
+The protocol ensures that automated decisions can be independently verified.
 
 
-decision.json
 
-↓
+---
 
-dip sign
 
-↓
+
+\## Overview
+
+
+
+The DIP lifecycle consists of five stages:
+
+
+
+Decision → Artifact → Registry → Proof → Verification
+
+
+
+---
+
+
+
+\## 1. Decision
+
+
+
+A decision system produces a structured decision record.
+
+
+
+Example fields:
+
+
+
+\- decision\_id
+
+\- timestamp
+
+\- inputs
+
+\- outputs
+
+
+
+The decision record represents the execution of an automated decision.
+
+
+
+---
+
+
+
+\## 2. Artifact Creation
+
+
+
+The decision record is converted into a DIP artifact.
+
+
+
+Steps:
+
+
+
+1\. Serialize the decision using canonical JSON.
+
+2\. Compute SHA256 hash of the canonical decision.
+
+3\. The resulting hash becomes the artifact\_id.
+
+4\. Sign the artifact using Ed25519.
+
+
+
+Result:
+
+
 
 artifact.json
 
-↓
 
-dip proof
 
-↓
-
-proof.json
-
-↓
-
-dip bundle
-
-↓
-
-decision.dip
-
-↓
-
-dip verify
-
-↓
-
-verification result
+---
 
 
 
-
-
-\## Components
-
-
-
-| Component | Role |
-
-|----------|------|
-
-Decision | Structured input describing a decision |
-
-Artifact | Signed representation of the decision |
-
-Proof | Merkle inclusion proof |
-
-Bundle | Portable verification package |
+\## 3. Registry Append
 
 
 
-\## Protocol Invariant
+The artifact is submitted to the DIP registry.
 
 
+
+The registry:
+
+
+
+\- stores the artifact
+
+\- appends artifact\_id to the ledger
+
+\- updates the Merkle tree
+
+\- computes a new Merkle root
+
+
+
+The registry is append-only.
+
+
+
+---
+
+
+
+\## 4. Proof Generation
+
+
+
+A Merkle inclusion proof can be generated for an artifact.
+
+
+
+The proof contains:
+
+
+
+\- artifact\_hash
+
+\- proof\_path
+
+\- Merkle root
+
+
+
+This proves the artifact exists in the registry.
+
+
+
+---
+
+
+
+\## 5. Verification
+
+
+
+Verification is performed independently using a DIP verifier.
+
+
+
+Verification checks:
+
+
+
+1\. artifact\_id matches SHA256(canonical(decision))
+
+2\. Ed25519 signature is valid
+
+3\. Merkle proof recomputes the correct root
+
+
+
+If all checks pass:
 
 
 
 artifact + proof + verifier = truth
-
-
-
-Save.
-
-
-
-Step 2 — Create Architecture Diagram
-
-
-
-Create:
-
-
-
-notepad D:\\Conf\\dip-protocol\\dip-spec\\docs\\DIP\_SYSTEM\_ARCHITECTURE.md
-
-
-
-Paste:
-
-
-
-\# DIP System Architecture
-
-
-
-DIP separates decision execution from evidence storage.
-
-
-
-
-
-┌──────────────────────┐
-
-Decision Engine
-
-└──────────┬───────────┘
-
-↓
-
-┌──────────────────────┐
-
-Documentation Engine
-
-(dip-cli)
-
-└──────────┬───────────┘
-
-↓
-
-┌──────────────────────┐
-
-Artifact
-
-artifact.json
-
-└──────────┬───────────┘
-
-↓
-
-┌──────────────────────┐
-
-Decision Ledger
-
-(dip-registry)
-
-└──────────┬───────────┘
-
-↓
-
-┌──────────────────────┐
-
-Proof
-
-proof.json
-
-└──────────┬───────────┘
-
-↓
-
-┌──────────────────────┐
-
-Verification
-
-(dip-go-verifier)
-
-└──────────────────────┘
-
-
-
-Architectural Principle
-
-
-
-Decision execution and verification must remain independent.
-
-
-
-Verification requires only:
-
-
-
-artifact + proof + verifier
 
