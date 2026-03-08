@@ -11,7 +11,7 @@ DIP enables automated systems to produce decision artifacts that can be **indepe
 
 ---
 
-# Protocol Invariant
+## Protocol Invariant
 
 
 artifact + proof + verifier = truth
@@ -19,7 +19,7 @@ artifact + proof + verifier = truth
 
 ---
 
-# Protocol Flow
+## Protocol Flow
 
 
 decision
@@ -35,18 +35,17 @@ verification
 
 ---
 
-# Protocol Architecture
+## Protocol Architecture
 
 ```mermaid
 flowchart TD
-
-A[Decision] --> B[Artifact Creation]
-B --> C[Artifact JSON]
-C --> D[Append to Registry]
-D --> E[Merkle Tree Ledger]
-E --> F[Generate Proof]
-F --> G[Independent Verification]
-G --> H[Truth]
+    A[Decision] --> B[Artifact Creation]
+    B --> C[Artifact JSON]
+    C --> D[Append to Registry]
+    D --> E[Merkle Tree Ledger]
+    E --> F[Generate Proof]
+    F --> G[Independent Verification]
+    G --> H[Truth]
 Quickstart (30 seconds)
 
 Run the full DIP pipeline locally.
