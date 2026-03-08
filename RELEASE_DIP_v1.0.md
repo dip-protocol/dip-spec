@@ -1,294 +1,91 @@
-\# DIP v1.0 Protocol Release
+# Decision Integrity Protocol (DIP) v1.0
 
+Release Date: 2026
 
-
-Release Date: 2026-03-07
-
-
-
-This document announces the first stable release of the
-
-Decision Integrity Protocol (DIP).
-
-
+Status: Stable
 
 ---
 
+## Overview
 
+The Decision Integrity Protocol (DIP) defines a minimal protocol for
+verifiable automated decisions.
 
-\# Overview
-
-
-
-DIP defines a minimal protocol for producing cryptographically
-
-verifiable records of automated decisions.
-
-
-
-The protocol enables independent verification of decision integrity.
-
-
+DIP enables independent verification of decision outputs produced by
+automated systems.
 
 ---
 
-
-
-\# Protocol Components
-
-
-
-DIP v1.0 defines the following primitives.
-
-
-
-| Primitive | Description |
-
-|---|---|
-
-Decision | Structured decision record |
-
-Artifact | Signed representation of the decision |
-
-Proof | Merkle inclusion proof |
-
-Bundle | Portable verification container |
-
-
-
----
-
-
-
-\# Protocol Pipeline
-
-
-
-decision.json  
-
-↓  
-
-dip sign  
-
-↓  
-
-artifact.json  
-
-↓  
-
-dip proof  
-
-↓  
-
-proof.json  
-
-↓  
-
-dip bundle  
-
-↓  
-
-decision.dip  
-
-↓  
-
-dip verify  
-
-
-
-Verification Result
-
-
-
----
-
-
-
-\# Protocol Guarantees
-
-
-
-The protocol guarantees:
-
-
+## Protocol Invariant
 
 artifact + proof + verifier = truth
 
+---
 
+## Core Components
 
-Verification must be possible offline.
+### Artifact
 
+A signed record describing an automated decision.
 
+### Registry
+
+Append-only ledger storing artifact identifiers.
+
+### Proof
+
+Merkle inclusion proof linking artifact to registry root.
+
+### Verifier
+
+Independent implementation validating artifacts and proofs.
 
 ---
 
+## Protocol Flow
 
-
-\# Reference Implementations
-
-
-
-The following reference implementations exist.
-
-
-
-| Repository | Role |
-
-|---|---|
-
-dip-cli | Documentation Engine |
-
-dip-registry | Decision Ledger |
-
-dip-go-verifier | Independent verifier |
-
-
+decision.json
+↓
+artifact.json
+↓
+registry append
+↓
+proof generation
+↓
+independent verification
 
 ---
 
+## Reference Implementations
 
+dip-cli
 
-\# Specification
+Creates signed artifacts.
 
+dip-registry
 
+Append-only decision ledger.
 
-Canonical protocol specification:
+dip-go-verifier
 
+Independent artifact verifier.
 
+dip CLI
 
-spec/v1/dip.md
-
-
-
----
-
-
-
-\# Schemas
-
-
-
-The following schemas define protocol structures.
-
-
-
-artifact.schema.json  
-
-decision.schema.json  
-
-proof.schema.json  
-
-
+Unified protocol interface.
 
 ---
 
+## Conformance
 
+Test vectors are available in:
 
-\# Conformance
+conformance/test-vectors/v1
 
-
-
-Protocol conformance tests exist in:
-
-
-
-conformance/
-
-
+Implementations must pass these tests to be considered DIP compatible.
 
 ---
 
+## Version
 
-
-\# Security Model
-
-
-
-DIP v1.0 uses:
-
-
-
-SHA256 hashing  
-
-Ed25519 signatures  
-
-Merkle inclusion proofs  
-
-
-
-Threat model:
-
-
-
-docs/DIP\_THREAT\_MODEL.md
-
-
-
----
-
-
-
-\# Governance
-
-
-
-Protocol evolution occurs through
-
-DIP Improvement Proposals.
-
-
-
-Example:
-
-
-
-DIP-0001
-
-
-
----
-
-
-
-\# Stability
-
-
-
-DIP v1.0 defines the stable protocol core.
-
-
-
-The following elements are considered stable:
-
-
-
-artifact format  
-
-proof format  
-
-verification algorithm  
-
-
-
-Changes require a new protocol version.
-
-
-
----
-
-
-
-\# Conclusion
-
-
-
-DIP v1.0 introduces a minimal protocol for verifiable
-
-automated decision records.
-
-
-
-The protocol enables independent verification of decisions
-
-across systems and organizations.
-
+Protocol Version: 1.0

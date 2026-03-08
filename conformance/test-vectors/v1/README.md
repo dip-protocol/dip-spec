@@ -1,4 +1,8 @@
-DIP Protocol v1 Test Vector
+\# DIP v1 Test Vectors
+
+
+
+This directory contains reference artifacts used to verify independent DIP implementations.
 
 
 
@@ -8,37 +12,47 @@ Files:
 
 artifact.json
 
-&nbsp;   Signed decision artifact.
+&nbsp;   Canonical DIP artifact.
 
 
 
 proof.json
 
-&nbsp;   Merkle inclusion proof produced by dip-registry.
+&nbsp;   Merkle inclusion proof for the artifact.
 
 
 
 merkle-root.txt
 
-&nbsp;   Expected Merkle root of the registry.
+&nbsp;   Expected Merkle root of the registry log.
 
 
 
-Verification procedure:
+\## Verification Procedure
 
 
 
-1\. Compute artifact\_id = SHA256(canonical(decision))
-
-2\. Verify Ed25519 signature on the artifact.
-
-3\. Recompute the Merkle root using artifact\_id and proof.json.
-
-4\. The computed root must match merkle-root.txt.
+An implementation must verify:
 
 
 
-If all checks pass:
+1\. Artifact canonicalization
+
+2\. Artifact ID correctness
+
+3\. Signature validity
+
+4\. Merkle proof inclusion
+
+5\. Merkle root consistency
+
+
+
+If all checks pass, the artifact is considered valid under DIP v1.
+
+
+
+Protocol invariant:
 
 
 
