@@ -11,13 +11,24 @@
   "properties": {
     "artifact_hash": {
       "type": "string",
-      "description": "SHA256 hash of the artifact"
+      "description": "SHA256 hash of the canonical artifact"
     },
     "proof_path": {
       "type": "array",
-      "description": "Merkle proof path from artifact to root",
+      "description": "Merkle proof path from artifact leaf to root",
       "items": {
-        "type": "string"
+        "type": "object",
+        "required": ["hash", "position"],
+        "properties": {
+          "hash": {
+            "type": "string"
+          },
+          "position": {
+            "type": "string",
+            "enum": ["left", "right"]
+          }
+        },
+        "additionalProperties": false
       }
     },
     "root": {

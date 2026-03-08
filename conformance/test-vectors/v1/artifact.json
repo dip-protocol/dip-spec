@@ -1,0 +1,21 @@
+{
+  "artifact_version": "1",
+  "artifact_id": "47e648f9a3f7f0cdb3864c6bb3233ec980b23a6d1bcb680f9feb52ae308b87a8",
+  "decision": {
+    "decision_id": "decision-001",
+    "inputs": {
+      "action": "loan_request",
+      "user_id": "12345"
+    },
+    "outputs": {
+      "approved": true,
+      "limit": 5000
+    },
+    "timestamp": "2026-03-08T10:00:00Z"
+  },
+  "signature": {
+    "algorithm": "ed25519",
+    "public_key": "h7FXi5VgrzRMsmyuAty2ROWS+25JKFUmJ9DiKmIZ4ok=",
+    "value": "HKDo125H10oQfaWkapO6H7BnvzVu8TdmfWABA1NmG2peXAaKq2ppK6p4jHV+0oRWJkp2jBYWVk8zvZr8rrbmCg=="
+  }
+}

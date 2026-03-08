@@ -1,80 +1,260 @@
-# Decision Integrity Protocol (DIP)
-
-The Decision Integrity Protocol (DIP) is an open protocol for producing
-cryptographically verifiable records of automated decisions.
-
-DIP enables systems to generate deterministic decision artifacts that can be
-independently verified without relying on the system that produced them.
-
-## Core Principle
-
-Verification must work independently of the system that produced the decision.
+\# Decision Integrity Protocol Specification (DIP)
 
 
-artifact + proof + verifier = truth
+
+The \*\*Decision Integrity Protocol (DIP)\*\* defines a minimal standard for producing \*\*verifiable automated decision artifacts\*\*.
 
 
-A verifier must be able to validate a decision artifact **offline** using only
-the artifact, its proof, and a verification implementation.
 
-## Protocol Primitives
-
-The protocol defines four core primitives:
-
-| Primitive | Description |
-|----------|-------------|
-| Artifact | Signed record describing the decision |
-| Proof | Cryptographic inclusion proof from the decision ledger |
-| Bundle | Portable container combining artifact and proof |
-| Verification | Independent validation of artifact integrity |
-
-## Repositories
-
-| Repository | Purpose |
-|-----------|--------|
-| dip-spec | Protocol specification |
-| dip-cli | Reference CLI implementation |
-| dip-registry | Append-only decision ledger |
-| dip-go-verifier | Independent verification library |
-
-## Decision Pipeline
-
-A typical DIP workflow:
+A DIP artifact contains:
 
 
-decision.json
-↓
-dip sign
-artifact.json
-↓
-dip proof
-proof.json
-↓
-dip bundle
-decision.dip
-↓
-dip verify decision.dip
+
+\* Decision inputs and outputs
+
+\* Deterministic artifact hash
+
+\* Cryptographic signature
+
+\* Optional transparency log inclusion proof
 
 
-## Protocol Specification
 
-The full protocol specification is located in:
-
-
-spec/v1/dip.md
+Artifacts created using the protocol can be verified \*\*independently and offline\*\*.
 
 
-## Properties
 
-DIP is designed with the following guarantees:
+---
 
-* deterministic artifacts
-* cryptographic signatures
-* append-only decision ledger
-* independent verification
-* offline verification capability
-* no single platform dependency
 
-## License
 
-Open protocol specification.
+\# Protocol Goals
+
+
+
+DIP is designed to ensure that automated decisions can be:
+
+
+
+\* Verified independently
+
+\* Audited deterministically
+
+\* Preserved for long-term verification
+
+\* Implemented across multiple languages
+
+
+
+---
+
+
+
+\# Core Protocol Concepts
+
+
+
+\## Decision Artifact
+
+
+
+The primary protocol object is the \*\*decision artifact\*\*.
+
+
+
+It contains:
+
+
+
+```
+
+artifact\_version
+
+artifact\_id
+
+decision
+
+signature
+
+```
+
+
+
+The artifact hash is defined as:
+
+
+
+```
+
+artifact\_id = SHA256(canonical artifact)
+
+```
+
+
+
+---
+
+
+
+\# Canonicalization
+
+
+
+Artifacts must be serialized using \*\*deterministic canonical JSON\*\*.
+
+
+
+Rules:
+
+
+
+\* Object keys sorted lexicographically
+
+\* No extra whitespace
+
+\* UTF-8 encoding
+
+
+
+Canonicalization ensures artifacts produce \*\*stable hashes and signatures\*\*.
+
+
+
+---
+
+
+
+\# Cryptographic Signing
+
+
+
+Artifacts are signed using:
+
+
+
+```
+
+Ed25519
+
+```
+
+
+
+Signing procedure:
+
+
+
+```
+
+artifact (without signature)
+
+&nbsp;   ↓
+
+canonicalization
+
+&nbsp;   ↓
+
+SHA256 hash
+
+&nbsp;   ↓
+
+Ed25519 signature
+
+```
+
+
+
+---
+
+
+
+\# Verification
+
+
+
+Artifacts can be verified independently using any DIP-compatible verifier.
+
+
+
+Verification process:
+
+
+
+```
+
+artifact
+
+&nbsp;  ↓
+
+remove signature
+
+&nbsp;  ↓
+
+canonicalize artifact
+
+&nbsp;  ↓
+
+recompute artifact\_id
+
+&nbsp;  ↓
+
+verify signature
+
+```
+
+
+
+---
+
+
+
+\# Protocol Architecture
+
+
+
+```
+
+dip-spec
+
+&nbsp;   protocol specification
+
+
+
+dip-cli
+
+&nbsp;   artifact creation
+
+
+
+dip-registry
+
+&nbsp;   transparency log
+
+
+
+dip-go-verifier
+
+&nbsp;   Go artifact verifier
+
+
+
+dip-js-verifier
+
+&nbsp;   JavaScript verifier
+
+```
+
+
+
+---
+
+
+
+\# License
+
+
+
+Apache License 2.0
+
+
+

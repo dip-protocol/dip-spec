@@ -11,13 +11,14 @@
   "additionalProperties": false,
   "properties": {
     "artifact_version": {
-      "type": "string"
+      "type": "string",
+      "enum": ["1"]
     },
     "artifact_id": {
       "type": "string"
     },
     "decision": {
-      "type": "object"
+      "$ref": "decision.schema.json"
     },
     "signature": {
       "type": "object",
