@@ -13,25 +13,25 @@ DIP enables automated systems to produce decision artifacts that can be **indepe
 
 ## Protocol Invariant
 
-
+```
 artifact + proof + verifier = truth
-
+```
 
 ---
 
 ## Protocol Flow
 
-
+```
 decision
-↓
+   ↓
 artifact
-↓
+   ↓
 registry
-↓
+   ↓
 proof
-↓
+   ↓
 verification
-
+```
 
 ---
 
@@ -46,28 +46,39 @@ flowchart TD
     E --> F[Generate Proof]
     F --> G[Independent Verification]
     G --> H[Truth]
-Quickstart (30 seconds)
+```
+
+---
+
+## Quickstart (30 seconds)
 
 Run the full DIP pipeline locally.
 
 Clone the repositories:
 
+```bash
 git clone https://github.com/dip-protocol/dip-cli
 git clone https://github.com/dip-protocol/dip-registry
 git clone https://github.com/dip-protocol/dip-go-verifier
 git clone https://github.com/dip-protocol/dip
+```
 
 Build the CLI:
 
+```bash
 cd dip
 go build ./cmd/dip
+```
 
 Run a demo decision:
 
+```bash
 dip demo decision.json
+```
 
 Expected output:
 
+```
 Step 1: Signing decision
 DIP artifact created
 
@@ -79,23 +90,45 @@ Artifact verified successfully
 
 DIP pipeline complete
 artifact + proof + verifier = truth
-Example
+```
+
+---
+
+## Example
+
+```bash
 dip demo decision.json
-Repositories
-Repository	Purpose
-dip-spec	Protocol specification
-dip-cli	Artifact creation
-dip-registry	Append-only decision ledger
-dip-go-verifier	Independent verifier
-dip	Unified CLI
-Documentation
-Section	Location
-Protocol Specification	spec/v1
-Conformance Tests	conformance/test-vectors
-Governance	governance
-Research	research
-Whitepaper	whitepaper
-Protocol Pipeline
+```
+
+---
+
+## Repositories
+
+| Repository | Purpose |
+|-----------|--------|
+| dip-spec | Protocol specification |
+| dip-cli | Artifact creation |
+| dip-registry | Append-only decision ledger |
+| dip-go-verifier | Independent verifier |
+| dip | Unified CLI |
+
+---
+
+## Documentation
+
+| Section | Location |
+|-------|--------|
+| Protocol Specification | `spec/v1` |
+| Conformance Tests | `conformance/test-vectors` |
+| Governance | `governance` |
+| Research | `research` |
+| Whitepaper | `whitepaper` |
+
+---
+
+## Protocol Pipeline
+
+```
 decision.json
       │
       ▼
@@ -118,7 +151,11 @@ proof.json
       │
       ▼
 dip verify
-Status
+```
 
-Protocol Version: v0.1
-Stability: Experimental
+---
+
+## Status
+
+**Protocol Version:** v0.1  
+**Stability:** Experimental
